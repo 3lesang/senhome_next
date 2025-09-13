@@ -1,8 +1,9 @@
+import { Minus, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CartItem as CartItemType } from "@/types/cart";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import type { CartItem as CartItemType } from "@/types/cart";
 
 interface CartItemProps {
   item: CartItemType;
@@ -27,7 +28,7 @@ export default function CartItem({
         <div className="flex flex-col sm:flex-row gap-4">
           {/* Product Image */}
           <div className="flex-shrink-0">
-            <img
+            <Image
               src={item.image}
               alt={item.name}
               className="w-full sm:w-24 sm:h-24 object-cover rounded-lg"

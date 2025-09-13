@@ -1,5 +1,5 @@
-import React from "react";
 import { CreditCard, Smartphone, Wallet } from "lucide-react";
+import type React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -97,7 +97,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
                       e.target.value
                         .replace(/\s/g, "")
                         .replace(/(.{4})/g, "$1 ")
-                        .trim()
+                        .trim(),
                     )
                   }
                   placeholder="1234 5678 9012 3456"
@@ -119,11 +119,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
                     id="expiryDate"
                     value={data.expiryDate}
                     onChange={(e) => {
-                      let value = e.target.value.replace(/\D/g, "");
-                      if (value.length >= 2) {
-                        value =
-                          value.substring(0, 2) + "/" + value.substring(2, 4);
-                      }
+                      const value = e.target.value.replace(/\D/g, "");
                       handleChange("expiryDate", value);
                     }}
                     placeholder="MM/YY"

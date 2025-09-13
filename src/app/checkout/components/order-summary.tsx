@@ -1,8 +1,9 @@
+import { Minus, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
+import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Minus, Plus, Trash2 } from "lucide-react";
-import React from "react";
 
 interface OrderItem {
   id: string;
@@ -27,7 +28,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const shipping = subtotal > 100 ? 0 : 9.99;
   const tax = subtotal * 0.08;
@@ -45,7 +46,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({
               key={item.id}
               className="flex items-center space-x-4 p-4 border rounded-lg"
             >
-              <img
+              <Image
                 src={item.image}
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded-md"

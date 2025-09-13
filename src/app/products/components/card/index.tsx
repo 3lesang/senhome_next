@@ -1,25 +1,33 @@
 "use client";
 
+import { Eye, Star } from "lucide-react";
+import Image from "next/image";
+import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Product } from "@/types/product";
-import { Eye, Star } from "lucide-react";
-import React from "react";
+import { isValidUrl } from "@/lib/utils";
+import type { Product } from "@/types/product";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { thumbnail, name } = product;
+  const isUrl = isValidUrl(thumbnail);
   return (
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
       <div className="relative overflow-hidden">
-        <img
-          src={product.thumbnail}
-          alt={product.name}
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+        {isUrl && (
+          <Image
+            height={100}
+            width={100}
+            src={thumbnail}
+            alt={name}
+            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        )}
         <Badge variant="destructive" className="absolute top-3 right-3">
           -20%
         </Badge>
@@ -42,9 +50,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <div className="flex items-center space-x-1 mb-3">
           <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
+            {[...Array(5).keys()].map((item, i) => (
               <Star
-                key={i}
+                key={item}
                 className={`h-4 w-4 ${
                   i < Math.floor(product.rating)
                     ? "fill-yellow-400 text-yellow-400"

@@ -1,10 +1,11 @@
 "use client";
 
+import { ArrowRight, Mail } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Mail } from "lucide-react";
-import React, { useState } from "react";
 
 export const Newsletter: React.FC = () => {
   const [email, setEmail] = useState("");

@@ -1,6 +1,6 @@
 import pocketClient from "@/pocketbase/client";
 import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
-import { Product } from "@/types/product";
+import type { Product } from "@/types/product";
 
 async function getProductBySlugPocket(slug: string) {
   const res = await pocketClient

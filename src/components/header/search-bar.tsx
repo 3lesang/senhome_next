@@ -1,8 +1,9 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import { Search, Star } from "lucide-react";
+import Image from "next/image";
 import React from "react";
+import { Input } from "@/components/ui/input";
 
 interface Product {
   id: string;
@@ -82,7 +83,7 @@ function HeaderSearchBar() {
         .filter(
           (product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchQuery.toLowerCase())
+            product.category.toLowerCase().includes(searchQuery.toLowerCase()),
         )
         .slice(0, 5); // Limit to 5 suggestions
       setFilteredProducts(filtered);
@@ -114,7 +115,7 @@ function HeaderSearchBar() {
     if (searchQuery.trim()) {
       // Navigate to products page with search query
       window.location.href = `/product?search=${encodeURIComponent(
-        searchQuery
+        searchQuery,
       )}`;
     }
   };
@@ -124,7 +125,7 @@ function HeaderSearchBar() {
     setShowSuggestions(false);
     // Navigate to product detail or products page
     window.location.href = `/product?search=${encodeURIComponent(
-      product.name
+      product.name,
     )}`;
   };
 
@@ -155,11 +156,12 @@ function HeaderSearchBar() {
               </div>
               {filteredProducts.map((product) => (
                 <button
+                  type="button"
                   key={product.id}
                   onClick={() => handleProductClick(product)}
                   className="w-full flex items-center space-x-3 p-2 hover:bg-accent rounded-md transition-colors text-left"
                 >
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
                     className="w-10 h-10 object-cover rounded-md flex-shrink-0"
@@ -188,6 +190,7 @@ function HeaderSearchBar() {
             {searchQuery.trim() && (
               <div className="border-t border-border p-2">
                 <button
+                  type="button"
                   onClick={handleSearchSubmit}
                   className="w-full flex items-center space-x-2 p-2 hover:bg-accent rounded-md transition-colors text-left text-sm"
                 >
@@ -209,6 +212,7 @@ function HeaderSearchBar() {
               </div>
               <div className="border-t border-border p-2">
                 <button
+                  type="button"
                   onClick={handleSearchSubmit}
                   className="w-full flex items-center space-x-2 p-2 hover:bg-accent rounded-md transition-colors text-left text-sm"
                 >

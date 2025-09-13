@@ -1,9 +1,9 @@
+import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
-import Link from "next/link";
 
 const mobileNavItems = [
   { name: "Home", href: "/" },

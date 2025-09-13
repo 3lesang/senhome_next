@@ -1,6 +1,6 @@
+import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 
 function Footer() {
   const currentYear = new Date().getFullYear();

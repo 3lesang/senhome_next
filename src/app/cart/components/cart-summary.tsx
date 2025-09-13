@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CartSummary as CartSummaryType } from "@/types/cart";
+import type { CartSummary as CartSummaryType } from "@/types/cart";
 
 interface CartSummaryProps {
   summary: CartSummaryType;

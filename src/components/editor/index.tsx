@@ -1,7 +1,7 @@
 "use client";
 
+import { type Editor, EditorContent, useEditor } from "@tiptap/react";
 import { extensions } from "@/components/editor/extensions";
-import { Editor, EditorContent, useEditor } from "@tiptap/react";
 
 interface EditorProps {
   content?: string;

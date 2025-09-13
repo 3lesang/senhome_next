@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-import { CartItem, CartSummary } from "../types/cart";
-import { Product } from "../types/product";
+import type { CartItem, CartSummary } from "../types/cart";
 
 // Mock cart data
 const initialCartItems: CartItem[] = [
@@ -42,7 +41,7 @@ export function useCart() {
 
   const updateQuantity = (id: string, quantity: number) => {
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity } : item))
+      items.map((item) => (item.id === id ? { ...item, quantity } : item)),
     );
   };
 
@@ -54,17 +53,12 @@ export function useCart() {
     setCartItems([]);
   };
 
-  const addToCart = (
-    product: Product,
-    quantity: number,
-    selectedColor?: string,
-    selectedSize?: string
-  ) => {};
+  const addToCart = () => {};
 
   const cartSummary: CartSummary = useMemo(() => {
     const subtotal = cartItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
-      0
+      0,
     );
     const tax = subtotal * 0.08; // 8% tax
     const shipping = subtotal >= 100 ? 0 : 9.99; // Free shipping over $100

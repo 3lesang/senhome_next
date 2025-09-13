@@ -1,3 +1,5 @@
+import { Search, SlidersHorizontal, X } from "lucide-react";
+import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,8 +13,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Search, SlidersHorizontal, X } from "lucide-react";
-import React from "react";
 
 interface FilterState {
   search: string;
@@ -35,23 +35,12 @@ interface ProductFiltersProps {
 
 export const ProductFilters: React.FC<ProductFiltersProps> = ({
   filters = { search: "" },
-  onFiltersChange,
   onClearFilters,
   categories = [],
   isOpen,
   onToggle,
 }) => {
-  const handleFilterChange = (key: keyof FilterState, value: any) => {
-    // Convert special values back to empty strings for filter state
-    let processedValue = value;
-    if (
-      value === "all-categories" ||
-      value === "all-prices" ||
-      value === "all-ratings"
-    ) {
-      processedValue = "";
-    }
-  };
+  const handleFilterChange = () => {};
 
   const priceRanges = [
     { label: "All Prices", value: "all-prices" },
@@ -130,7 +119,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                   type="text"
                   placeholder="Search products..."
                   value={filters.search}
-                  onChange={(e) => handleFilterChange("search", e.target.value)}
+                  onChange={() => handleFilterChange()}
                   className="pl-10"
                 />
               </div>
@@ -141,10 +130,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             {/* Sort By */}
             <div className="space-y-2">
               <Label>Sort By</Label>
-              <Select
-                value={filters.sortBy}
-                onValueChange={(value) => handleFilterChange("sortBy", value)}
-              >
+              <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Sort by..." />
                 </SelectTrigger>
@@ -163,10 +149,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             {/* Category */}
             <div className="space-y-2">
               <Label>Category</Label>
-              <Select
-                value={filters.category}
-                onValueChange={(value) => handleFilterChange("category", value)}
-              >
+              <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
@@ -186,12 +169,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             {/* Price Range */}
             <div className="space-y-2">
               <Label>Price Range</Label>
-              <Select
-                value={filters.priceRange}
-                onValueChange={(value) =>
-                  handleFilterChange("priceRange", value)
-                }
-              >
+              <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Prices" />
                 </SelectTrigger>
@@ -210,10 +188,7 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             {/* Rating */}
             <div className="space-y-2">
               <Label>Customer Rating</Label>
-              <Select
-                value={filters.rating}
-                onValueChange={(value) => handleFilterChange("rating", value)}
-              >
+              <Select>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="All Ratings" />
                 </SelectTrigger>
@@ -234,25 +209,13 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
               <Label>Additional Filters</Label>
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="inStock"
-                    checked={filters.inStock}
-                    onCheckedChange={(checked) =>
-                      handleFilterChange("inStock", checked)
-                    }
-                  />
+                  <Checkbox id="inStock" />
                   <Label htmlFor="inStock" className="text-sm font-normal">
                     In Stock Only
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="onSale"
-                    checked={filters.onSale}
-                    onCheckedChange={(checked) =>
-                      handleFilterChange("onSale", checked)
-                    }
-                  />
+                  <Checkbox id="onSale" />
                   <Label htmlFor="onSale" className="text-sm font-normal">
                     On Sale
                   </Label>

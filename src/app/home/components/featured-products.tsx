@@ -1,12 +1,12 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { ProductCard } from "@/app/products/components/card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
 import { getListProductPocket } from "@/pocketbase/product/list";
-import { useQuery } from "@tanstack/react-query";
-import Link from "next/link";
 
 function FeaturedProducts() {
   const { data } = useQuery({

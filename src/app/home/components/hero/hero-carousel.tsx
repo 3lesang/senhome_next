@@ -1,21 +1,20 @@
 "use client";
 
+import { ArrowRight, ChevronDown, Play, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ChevronDown, Play, Star } from "lucide-react";
-import { useEffect, useState } from "react";
 
-// import slides
 import { heroSlides } from "./hero-slides";
 
 function HeroCarousel() {
@@ -23,18 +22,16 @@ function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const count = heroSlides.length;
 
-  // theo dõi khi carousel thay đổi slide
   useEffect(() => {
     if (!api) return;
 
-    setCurrent(api.selectedScrollSnap()); // set slide ban đầu
+    setCurrent(api.selectedScrollSnap());
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
 
-  // autoplay (chạy sau mỗi 6s)
   useEffect(() => {
     if (!api) return;
     const autoplay = setInterval(() => {
@@ -51,7 +48,6 @@ function HeroCarousel() {
           {heroSlides.map((slide) => (
             <CarouselItem key={slide.id}>
               <div className="relative min-h-[600px] lg:min-h-[700px] flex items-center">
-                {/* Background */}
                 <div className="absolute inset-0 z-0">
                   <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -60,16 +56,14 @@ function HeroCarousel() {
                   <div
                     className={cn(
                       "absolute inset-0 bg-gradient-to-r",
-                      slide.gradient
+                      slide.gradient,
                     )}
                   />
                   <div className="absolute inset-0 bg-background/60" />
                 </div>
 
-                {/* Content */}
                 <div className="container mx-auto px-4 relative z-10">
                   <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    {/* Text */}
                     <div className="space-y-8">
                       <Badge
                         variant="secondary"
@@ -91,11 +85,10 @@ function HeroCarousel() {
                         {slide.description}
                       </p>
 
-                      {/* Features */}
                       <div className="flex flex-wrap gap-4">
-                        {slide.features.map((feature, idx) => (
+                        {slide.features.map((feature) => (
                           <div
-                            key={idx}
+                            key={feature.text}
                             className="flex items-center space-x-2 bg-background/80 backdrop-blur-sm rounded-full px-4 py-2"
                           >
                             <feature.icon className="h-4 w-4 text-primary" />
@@ -144,8 +137,8 @@ function HeroCarousel() {
                                 { value: "99%", label: "Hài lòng" },
                                 { value: "24/7", label: "Hỗ trợ" },
                                 { value: "1M+", label: "Khách hàng" },
-                              ].map((stat, idx) => (
-                                <div key={idx}>
+                              ].map((stat) => (
+                                <div key={stat.value}>
                                   <div className="text-2xl font-bold text-primary">
                                     {stat.value}
                                   </div>
@@ -166,23 +159,21 @@ function HeroCarousel() {
           ))}
         </CarouselContent>
 
-        {/* Navigation */}
         <CarouselPrevious className="left-4 bg-background/80 backdrop-blur-sm border-0 shadow-lg" />
         <CarouselNext className="right-4 bg-background/80 backdrop-blur-sm border-0 shadow-lg" />
       </Carousel>
 
-      {/* Indicators */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex space-x-2">
-          {Array.from({ length: count }).map((_, index) => (
+          {[...Array(count).keys()].map((item, index) => (
             <button
-              key={index}
-              aria-label={`Chuyển đến slide ${index + 1}`}
+              type="button"
+              key={item}
               className={cn(
                 "w-3 h-3 rounded-full transition-all duration-300",
                 index === current
                   ? "bg-primary scale-125"
-                  : "bg-background/60 hover:bg-background/80"
+                  : "bg-background/60 hover:bg-background/80",
               )}
               onClick={() => api?.scrollTo(index)}
             />
@@ -190,7 +181,6 @@ function HeroCarousel() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <div className="absolute bottom-8 right-8 z-20 hidden lg:flex flex-col items-center space-y-2 text-muted-foreground">
         <span className="text-sm font-medium">Cuộn xuống</span>
         <ChevronDown className="h-4 w-4 animate-bounce" />

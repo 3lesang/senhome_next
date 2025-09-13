@@ -1,11 +1,11 @@
 "use client";
 
+import { ArrowLeft, ArrowRight, Loader2, Lock } from "lucide-react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, ArrowRight, Loader2, Lock } from "lucide-react";
-import React, { useState } from "react";
 import { CheckoutStep } from "./checkout-step";
 import { CustomerForm } from "./customer-form";
 import { OrderConfirmation } from "./order-confirmation";
@@ -51,9 +51,7 @@ function Checkout() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  const [orderNumber] = useState(
-    "ORD-2024-" + Math.random().toString(36).substr(2, 9).toUpperCase()
-  );
+  const [orderNumber] = useState(Math.random().toString());
 
   const [orderItems, setOrderItems] = useState<OrderItem[]>([
     {
@@ -196,7 +194,7 @@ function Checkout() {
 
   const updateQuantity = (id: string, quantity: number) => {
     setOrderItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity } : item))
+      items.map((item) => (item.id === id ? { ...item, quantity } : item)),
     );
   };
 
@@ -206,7 +204,7 @@ function Checkout() {
 
   const subtotal = orderItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   const shipping = subtotal > 100 ? 0 : 9.99;
   const tax = subtotal * 0.08;
@@ -335,7 +333,7 @@ function Checkout() {
                           <p className="text-sm text-muted-foreground capitalize">
                             {paymentData.method === "card"
                               ? `Card ending in ${paymentData.cardNumber.slice(
-                                  -4
+                                  -4,
                                 )}`
                               : paymentData.method}
                           </p>

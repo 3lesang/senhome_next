@@ -1,13 +1,13 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import { ShoppingCart } from "lucide-react";
+import type { ListResult } from "pocketbase";
+import type React from "react";
 import { Button } from "@/components/ui/button";
 import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
 import { getListProductPocket } from "@/pocketbase/product/list";
-import { Product } from "@/types/product";
-import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart } from "lucide-react";
-import { ListResult } from "pocketbase";
-import React from "react";
+import type { Product } from "@/types/product";
 import { ProductCard } from "../card";
 import { ProductFilters } from "../filter";
 import { products } from "./product";

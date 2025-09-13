@@ -1,6 +1,6 @@
-import VideoPlayer from "@/components/video-player";
-import { Node, mergeAttributes } from "@tiptap/core";
+import { mergeAttributes, Node, type NodeViewProps } from "@tiptap/core";
 import { NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react";
+import VideoPlayer from "@/components/video-player";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -16,7 +16,7 @@ declare module "@tiptap/core" {
 /**
  * React component used inside the editor (NodeView)
  */
-function VideoNodeView({ node }: any) {
+function VideoNodeView({ node }: NodeViewProps) {
   return (
     <NodeViewWrapper className="video-node">
       <VideoPlayer src={node.attrs.src} />

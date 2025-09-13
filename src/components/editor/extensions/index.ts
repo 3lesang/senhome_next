@@ -1,5 +1,3 @@
-import Video from "@/components/editor/extensions/video";
-
 import Bold from "@tiptap/extension-bold";
 import Document from "@tiptap/extension-document";
 import Heading from "@tiptap/extension-heading";
@@ -12,6 +10,7 @@ import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import { Placeholder, UndoRedo } from "@tiptap/extensions";
+import Video from "@/components/editor/extensions/video";
 
 export const extensions = [
   Document,

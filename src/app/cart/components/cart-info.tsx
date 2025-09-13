@@ -1,11 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import CartItem from "@/app/cart/components/cart-item";
 import CartSummary from "@/app/cart/components/cart-summary";
 import EmptyCart from "@/app/cart/components/empty-cart";
 import TrustIndicators from "@/app/cart/components/trustIndicators";
 import { useCart } from "@/hooks/use-cart";
-import { useRouter } from "next/navigation";
 
 function CartInfo() {
   const router = useRouter();

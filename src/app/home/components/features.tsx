@@ -1,26 +1,30 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Headphones, RotateCcw, Shield, Truck } from "lucide-react";
-import React from "react";
+import type React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const features = [
   {
+    id: 1,
     icon: Truck,
     title: "Miễn phí vận chuyển",
     description:
       "Miễn phí vận chuyển cho mọi đơn hàng trên 100$. Giao hàng nhanh trên toàn thế giới.",
   },
   {
+    id: 2,
     icon: Shield,
     title: "Thanh toán an toàn",
     description:
       "Thanh toán 100% an toàn với mã hóa SSL và bảo vệ chống gian lận.",
   },
   {
+    id: 3,
     icon: Headphones,
     title: "Hỗ trợ 24/7",
     description: "Hỗ trợ khách hàng 24/7 qua chat, email và điện thoại.",
   },
   {
+    id: 4,
     icon: RotateCcw,
     title: "Đổi trả dễ dàng",
     description:
@@ -43,11 +47,11 @@ export const Features: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => {
+          {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <Card
-                key={index}
+                key={feature.id}
                 className="text-center hover:shadow-md transition-shadow duration-300"
               >
                 <CardContent className="p-6">

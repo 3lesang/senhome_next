@@ -1,9 +1,3 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { Product } from "@/types/product";
 import {
   Heart,
   Minus,
@@ -14,6 +8,12 @@ import {
   Star,
   Truck,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import type { Product } from "@/types/product";
 
 interface ProductInfoProps {
   product?: Product;
@@ -41,11 +41,7 @@ export default function ProductInfo({
     inStock: false,
     stockCount: 0,
   },
-  selectedColor,
-  selectedSize,
   quantity,
-  onColorSelect,
-  onSizeSelect,
   onQuantityChange,
   onAddToCart,
 }: ProductInfoProps) {
@@ -73,14 +69,14 @@ export default function ProductInfo({
       {/* Rating */}
       <div className="flex items-center gap-2">
         <div className="flex items-center">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(5)].map((item, i) => (
             <Star
-              key={i}
+              key={item as number}
               className={cn(
                 "w-5 h-5",
                 i < Math.floor(product.rating)
                   ? "text-yellow-400 fill-current"
-                  : "text-muted-foreground/30"
+                  : "text-muted-foreground/30",
               )}
             />
           ))}

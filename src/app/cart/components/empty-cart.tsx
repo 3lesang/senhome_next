@@ -1,6 +1,6 @@
+import { ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ShoppingBag } from "lucide-react";
 
 interface EmptyCartProps {
   onContinueShopping: () => void;

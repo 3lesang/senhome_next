@@ -1,6 +1,6 @@
 import {
   MediaPlayer,
-  MediaPlayerInstance,
+  type MediaPlayerInstance,
   MediaProvider,
   Poster,
   useMediaStore,
@@ -8,12 +8,11 @@ import {
 
 import "@vidstack/react/player/styles/base.css";
 
-import { useRef, type PointerEvent } from "react";
-
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useMediaRemote } from "@vidstack/react";
 import { PauseIcon, PlayIcon } from "lucide-react";
+import { type PointerEvent, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Props {
   src?: string;
@@ -45,7 +44,7 @@ export default ({ src }: Props) => {
           onPointerUp={handleClick}
           className={cn(
             "group-hover:opacity-100 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 size-8",
-            paused ? "opacity-100" : "opacity-0"
+            paused ? "opacity-100" : "opacity-0",
           )}
         >
           {playing ? <PauseIcon /> : <PlayIcon />}

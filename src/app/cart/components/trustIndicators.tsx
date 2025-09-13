@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { RotateCcw, Shield, Truck } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function TrustIndicators() {
   const indicators = [
@@ -27,10 +27,10 @@ export default function TrustIndicators() {
     <Card>
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {indicators.map((indicator, index) => {
+          {indicators.map((indicator) => {
             const Icon = indicator.icon;
             return (
-              <div key={index} className="flex items-center gap-3">
+              <div key={indicator.title} className="flex items-center gap-3">
                 <Icon className={`w-6 h-6 ${indicator.color}`} />
                 <div>
                   <p className="font-semibold text-foreground">

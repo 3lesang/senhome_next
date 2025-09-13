@@ -1,3 +1,9 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import type { Metadata } from "next";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import {
@@ -7,12 +13,6 @@ import {
 import { getListFileProductPocket } from "@/pocketbase/file/product";
 import { getOneProductPocket } from "@/pocketbase/product/one";
 import { getProductBySlugPocket } from "@/pocketbase/product/slug";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { Metadata } from "next";
 import ProductDetail from "./detail";
 
 export async function generateMetadata({
@@ -67,7 +67,7 @@ export default async function Page({
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Header />
       <main>
-        <ProductDetail slug={slug} productId={id} />
+        <ProductDetail key={id} slug={slug} productId={id} />
       </main>
       <Footer />
     </HydrationBoundary>

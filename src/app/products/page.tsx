@@ -1,12 +1,12 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
-import { getListProductPocket } from "@/pocketbase/product/list";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
+import { getListProductPocket } from "@/pocketbase/product/list";
 import { ListProductPage } from "./components/list";
 
 async function Page() {

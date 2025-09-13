@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
-import React from "react";
+import type React from "react";
+import { cn } from "@/lib/utils";
 
 interface CheckoutStepProps {
   step: number;
@@ -27,7 +27,7 @@ export const CheckoutStep: React.FC<CheckoutStepProps> = ({
           isPast && "border-green-500 bg-green-500 text-white",
           !isActive &&
             !isPast &&
-            "border-muted-foreground bg-background text-muted-foreground"
+            "border-muted-foreground bg-background text-muted-foreground",
         )}
       >
         {isPast ? (
@@ -41,7 +41,7 @@ export const CheckoutStep: React.FC<CheckoutStepProps> = ({
           "ml-3 text-sm font-medium transition-colors duration-200",
           isActive && "text-primary",
           isPast && "text-green-600",
-          !isActive && !isPast && "text-muted-foreground"
+          !isActive && !isPast && "text-muted-foreground",
         )}
       >
         {title}
