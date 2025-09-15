@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-function HeaderLogo() {
+export default function HeaderLogo() {
   return (
     <div className="flex items-center space-x-2">
       <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
@@ -12,5 +12,3 @@ function HeaderLogo() {
     </div>
   );
 }
-
-export default HeaderLogo;

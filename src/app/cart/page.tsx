@@ -1,15 +1,13 @@
-import CartInfo from "@/app/cart/components/cart-info";
+import CartInfo from "@/app/cart/cart-info";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 
-function Page() {
+export default function Page() {
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <Header />
       <CartInfo />
       <Footer />
-    </>
+    </div>
   );
 }
-
-export default Page;

@@ -13,8 +13,7 @@ export default ({ content, onChange }: EditorProps) => {
     extensions,
     editorProps: {
       attributes: {
-        class:
-          "prose !max-w-none text-sm focus:outline-none min-h-56 w-full mt-4",
+        class: "prose !max-w-none",
       },
     },
     content: content ? JSON.parse(content) : undefined,
@@ -22,6 +21,7 @@ export default ({ content, onChange }: EditorProps) => {
       onChange?.(JSON.stringify(editor.getJSON()));
     },
     immediatelyRender: false,
+    editable: false,
   });
 
   if (!editor) {

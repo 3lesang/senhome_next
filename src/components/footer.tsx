@@ -2,7 +2,7 @@ import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
@@ -152,7 +152,7 @@ function Footer() {
       <div className="container mx-auto px-4 py-6">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center space-x-1 text-sm text-muted-foreground">
-            <span>© {currentYear} SenHome</span>
+            <span>© {currentYear} senhome.vn</span>
             <span></span>
           </div>
 
@@ -181,5 +181,3 @@ function Footer() {
     </footer>
   );
 }
-
-export default Footer;

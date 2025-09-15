@@ -1,12 +1,19 @@
-export interface CartItem {
+export interface CartItemType {
   id: string;
   name: string;
   price: number;
-  image: string;
   quantity: number;
-  size?: string;
-  color?: string;
-  description: string;
+  thumbnail: string;
+  variantId: string;
+  productId: string;
+  variants: {
+    attr: { id: string; name: string };
+    opt: { id: string; name: string };
+  }[];
+}
+
+export interface CartState {
+  items: CartItemType[];
 }
 
 export interface CartSummary {

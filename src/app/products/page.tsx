@@ -7,9 +7,9 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
 import { getListProductPocket } from "@/pocketbase/product/list";
-import { ListProductPage } from "./components/list";
+import ListProductPage from "./product-list";
 
-async function Page() {
+export default async function Page() {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({
@@ -27,5 +27,3 @@ async function Page() {
     </HydrationBoundary>
   );
 }
-
-export default Page;

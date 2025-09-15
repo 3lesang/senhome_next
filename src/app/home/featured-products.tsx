@@ -1,18 +1,15 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { ProductCard } from "@/app/products/components/card";
+import ProductCard, { type ProductDataType } from "@/components/product-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
-import { getListProductPocket } from "@/pocketbase/product/list";
 
-function FeaturedProducts() {
-  const { data } = useQuery({
-    queryKey: [PRODUCT_COLLECTION],
-    queryFn: () => getListProductPocket(),
-  });
+interface FeaturedProductsProps {
+  data?: ProductDataType[];
+}
+
+export default function FeaturedProducts({ data }: FeaturedProductsProps) {
   return (
     <section className="py-16 lg:py-24">
       <div className="container mx-auto">
@@ -27,9 +24,9 @@ function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {data?.items.map((product) => (
-            <Link key={product.id} href={`/products/${product?.slug}`}>
-              <ProductCard product={product} />
+          {data?.map((item) => (
+            <Link key={item.id} href={`/products/${item?.slug}`}>
+              <ProductCard data={item} />
             </Link>
           ))}
         </div>
@@ -46,5 +43,3 @@ function FeaturedProducts() {
     </section>
   );
 }
-
-export default FeaturedProducts;

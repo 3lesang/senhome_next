@@ -131,7 +131,7 @@ function HeaderSearchBar() {
 
   return (
     <div
-      className="hidden md:flex items-center space-x-2 flex-1 max-w-sm mx-4"
+      className="hidden md:flex items-center space-x-2 flex-1 min-w-sm mx-4"
       ref={searchRef}
     >
       <div className="relative flex-1">
@@ -143,7 +143,7 @@ function HeaderSearchBar() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => searchQuery.length > 0 && setShowSuggestions(true)}
-            className="pl-10 pr-4"
+            className="pl-10 pr-4 border-0 bg-gray-50 shadow-none"
           />
         </form>
 
@@ -162,6 +162,8 @@ function HeaderSearchBar() {
                   className="w-full flex items-center space-x-3 p-2 hover:bg-accent rounded-md transition-colors text-left"
                 >
                   <Image
+                    height={50}
+                    width={50}
                     src={product.image}
                     alt={product.name}
                     className="w-10 h-10 object-cover rounded-md flex-shrink-0"

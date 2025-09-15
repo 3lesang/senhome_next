@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   slug: string;
   price: number;
+  discount: number;
   description: string;
   content: string;
   thumbnail: string;
@@ -12,3 +13,12 @@ export interface Product {
   inStock: boolean;
   stockCount: number;
 }
+
+export type VariantType = {
+  id: string;
+  price: number;
+  discount: number;
+  stock: number;
+  sku: string;
+  options: string[];
+};

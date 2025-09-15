@@ -1,46 +1,28 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart } from "lucide-react";
-import type { ListResult } from "pocketbase";
-import type React from "react";
-import { Button } from "@/components/ui/button";
-import { PRODUCT_COLLECTION } from "@/pocketbase/constants";
-import { getListProductPocket } from "@/pocketbase/product/list";
-import type { Product } from "@/types/product";
-import { ProductCard } from "../card";
-import { ProductFilters } from "../filter";
-import { products } from "./product";
+import ProductFilters from "./components/filter";
 
-export const ListProductPage: React.FC = () => {
-  const { data } = useQuery<ListResult<Product>>({
-    queryKey: [PRODUCT_COLLECTION],
-    queryFn: () => getListProductPocket(),
-  });
-
+export default function ListProductPage() {
   return (
     <div className="bg-background">
       <div className="container py-8 mx-auto">
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-          {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
               <div className="mb-4">
                 <h1 className="text-3xl font-bold tracking-tight mb-2">
                   All Products
                 </h1>
-                <p className="text-muted-foreground">
+                {/* <p className="text-muted-foreground">
                   Showing {data?.totalItems} of {products.length} products
-                </p>
+                </p> */}
               </div>
               <ProductFilters />
             </div>
           </div>
 
-          {/* Products Grid */}
           <div className="lg:col-span-3">
-            {/* Products */}
-            {data?.totalItems === 0 ? (
+            {/* {data?.totalItems === 0 ? (
               <div className="text-muted-foreground mb-4 text-center">
                 <ShoppingCart className="mx-auto h-12 w-12 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">
@@ -55,10 +37,10 @@ export const ListProductPage: React.FC = () => {
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

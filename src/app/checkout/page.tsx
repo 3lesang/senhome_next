@@ -1,6 +1,6 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import Checkout from "./components/checkout";
+import Checkout from "./checkout";
 
 function Page() {
   return (

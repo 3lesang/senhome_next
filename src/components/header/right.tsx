@@ -1,9 +1,13 @@
+"use client";
+
 import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
+import { useCart } from "@/app/providers/cart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import HeaderSearchBar from "./search-bar";
 
 const mobileNavItems = [
   { name: "Home", href: "/" },
@@ -14,8 +18,10 @@ const mobileNavItems = [
 ];
 
 function HeaderRight() {
+  const { total } = useCart();
   return (
     <div className="flex items-center space-x-2">
+      <HeaderSearchBar />
       {/* Mobile Search */}
       <Button variant="ghost" size="icon" className="md:hidden">
         <Search className="h-5 w-5" />
@@ -23,23 +29,23 @@ function HeaderRight() {
       </Button>
 
       {/* Account */}
-      <Button variant="ghost" className="hidden sm:flex">
+      <Button variant="ghost" size="icon" className="hidden sm:flex">
         <User className="h-5 w-5" />
-        <span>Tài khoản</span>
         <span className="sr-only">Account</span>
       </Button>
 
       {/* Cart */}
       <Link href="/cart">
-        <Button variant="ghost" className="relative">
+        <Button variant="ghost" size="icon" className="relative">
           <ShoppingCart className="h-5 w-5" />
-          <Badge
-            variant="destructive"
-            className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
-          >
-            5
-          </Badge>
-          <span>Giỏ hàng</span>
+          {total > 0 && (
+            <Badge
+              variant="destructive"
+              className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+            >
+              {total}
+            </Badge>
+          )}
           <span className="sr-only">Shopping cart</span>
         </Button>
       </Link>

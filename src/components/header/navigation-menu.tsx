@@ -57,7 +57,7 @@ const navigationItems = [
   },
 ];
 
-function HeaderNavigationMenu() {
+export default function HeaderNavigationMenu() {
   return (
     <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
@@ -131,5 +131,3 @@ function HeaderNavigationMenu() {
     </NavigationMenu>
   );
 }
-
-export default HeaderNavigationMenu;

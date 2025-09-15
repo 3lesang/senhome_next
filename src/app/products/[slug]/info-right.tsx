@@ -1,0 +1,186 @@
+import { Minus, Plus, Star } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useCart } from "@/app/providers/cart";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { cn, formatVND } from "@/lib/utils";
+import type { VariantType } from "@/types/product";
+
+interface ProductInfoRightProps {
+  data: {
+    id: string;
+    name: string;
+    category: string;
+    price: number;
+    discount: number;
+    attrs: { id: string; name: string; opts: { id: string; name: string }[] }[];
+    variants: VariantType[];
+    countReview: number;
+    rating: number;
+    thumbnail: string;
+  };
+  onVariantChange?: (id: string) => void;
+}
+
+export default function ProductInfoRight({
+  data,
+  onVariantChange,
+}: ProductInfoRightProps) {
+  const { addItem } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [options, setOptions] = useState<Record<string, string>>({});
+  const [variant, setVariant] = useState<VariantType>();
+
+  const {
+    id,
+    name,
+    category,
+    price: productPrice,
+    discount: productDiscount,
+    rating,
+    countReview,
+  } = data;
+
+  const price = variant?.price ?? productPrice;
+  const discount = variant?.discount ?? productDiscount;
+
+  const handleOptionClick = (attrId: string, optId: string) => {
+    const newOptions = { ...options, [attrId]: optId };
+    const optionsValues = Object.values(newOptions);
+
+    const isSameArray = (a: string[], b: string[]) =>
+      a.length === b.length && a.every((val) => b.includes(val));
+
+    const found = data.variants.find((item) =>
+      isSameArray(item.options, optionsValues),
+    );
+
+    if (found?.id) {
+      onVariantChange?.(found.id);
+    }
+
+    setVariant(found);
+
+    setOptions(newOptions);
+  };
+
+  const handleAddToCart = () => {
+    const attrMap = Object.entries(options).map(([attrId, optId]) => {
+      const attr = data.attrs.find((i) => i.id === attrId);
+      const opt = attr?.opts.find((i) => i.id === optId);
+      return {
+        attr: {
+          id: attr?.id ?? "",
+          name: attr?.name ?? "",
+        },
+        opt: {
+          id: opt?.id ?? "",
+          name: opt?.name ?? "",
+        },
+      };
+    });
+
+    addItem({
+      id: variant?.id ?? id,
+      name,
+      price,
+      quantity,
+      thumbnail: data.thumbnail,
+      variantId: variant?.id ?? "",
+      productId: id,
+      variants: attrMap,
+    });
+    toast("Đã thêm sản phẩm vào giỏ hàng.");
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <div className="flex items-center gap-2 mb-3">
+          <Badge variant="secondary">{category}</Badge>
+          {Number(discount) > 0 && (
+            <Badge variant="destructive">Giảm {Number(discount)}%</Badge>
+          )}
+        </div>
+        <h1 className="text-3xl font-bold mb-2">{name}</h1>
+        <p className="text-muted-foreground text-lg">{}</p>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="flex items-center">
+          {[...Array(5).keys()].map((item, i) => (
+            <Star
+              key={item}
+              className={cn(
+                "w-5 h-5",
+                i < Math.floor(rating)
+                  ? "text-yellow-400 fill-current"
+                  : "text-muted-foreground/30",
+              )}
+            />
+          ))}
+        </div>
+        <span className="font-medium">{rating}</span>
+        <span className="text-muted-foreground">({countReview} đánh giá)</span>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <span className="text-3xl font-bold">
+          {formatVND(price * (1 - discount / 100))}
+        </span>
+        {discount > 0 && (
+          <span className="text-xl text-muted-foreground line-through">
+            {formatVND(price)}
+          </span>
+        )}
+      </div>
+
+      <Separator />
+
+      {data.attrs.map((attr) => (
+        <div key={attr.id}>
+          <h3 className="font-semibold mb-3">{attr.name}</h3>
+          <div className="flex gap-2 flex-wrap">
+            {attr.opts.map((opt) => (
+              <Button
+                key={opt.id}
+                variant={options[attr.id] === opt.id ? "default" : "outline"}
+                className="h-auto py-2"
+                onClick={() => handleOptionClick(attr.id, opt.id)}
+              >
+                {opt.name}
+              </Button>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div>
+        <h3 className="font-semibold mb-3">Số lượng</h3>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setQuantity((q) => (q > 1 ? q - 1 : 1))}
+          >
+            <Minus className="h-4 w-4" />
+          </Button>
+          <div className="w-16 text-center font-medium py-2">{quantity}</div>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setQuantity((q) => q + 1)}
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      <Button className="w-full" size="lg" onClick={handleAddToCart}>
+        Thêm vào giỏ - {formatVND(price * (1 - discount / 100) * quantity)}
+      </Button>
+    </div>
+  );
+}

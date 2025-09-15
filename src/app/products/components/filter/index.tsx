@@ -1,5 +1,4 @@
 import { Search, SlidersHorizontal, X } from "lucide-react";
-import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -33,13 +32,21 @@ interface ProductFiltersProps {
   onToggle?: () => void;
 }
 
-export const ProductFilters: React.FC<ProductFiltersProps> = ({
-  filters = { search: "" },
+export default function ProductFilters({
+  filters = {
+    search: "",
+    category: "",
+    priceRange: "",
+    rating: "",
+    sortBy: "",
+    inStock: false,
+    onSale: false,
+  },
   onClearFilters,
   categories = [],
   isOpen,
   onToggle,
-}) => {
+}: ProductFiltersProps) {
   const handleFilterChange = () => {};
 
   const priceRanges = [
@@ -227,4 +234,4 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       </div>
     </>
   );
-};
+}

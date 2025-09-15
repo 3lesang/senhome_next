@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { CartProvider } from "./cart";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -33,7 +34,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <CartProvider>{children}</CartProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

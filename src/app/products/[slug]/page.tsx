@@ -6,14 +6,18 @@ import {
 import type { Metadata } from "next";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import {
-  FILE_GRAPH_COLLECTION,
-  PRODUCT_COLLECTION,
-} from "@/pocketbase/constants";
+import { convertToFileUrl } from "@/lib/utils";
 import { getListFileProductPocket } from "@/pocketbase/file/product";
+import { getListAttributeProductPocket } from "@/pocketbase/product/attribute/list";
 import { getOneProductPocket } from "@/pocketbase/product/one";
+import { getListOptionAttributeProductPocket } from "@/pocketbase/product/option/list";
+import { getListReviewProductPocket } from "@/pocketbase/product/review/list";
 import { getProductBySlugPocket } from "@/pocketbase/product/slug";
-import ProductDetail from "./detail";
+import { getListVariantProductPocket } from "@/pocketbase/product/variant/list";
+import { getListOptionVariantPocket } from "@/pocketbase/product/variant/option";
+import type { FileType } from "@/types/file";
+import ProductInfo from "./info";
+import ProductTabs from "./tabs";
 
 export async function generateMetadata({
   params,
@@ -42,6 +46,75 @@ export async function generateMetadata({
   };
 }
 
+async function getProductHandler(id: string) {
+  const productResp = await getProductBySlugPocket(id);
+  const fileReps = await getListFileProductPocket(productResp.id);
+  const attrs = await getListAttributeProductPocket(productResp.id);
+  const reviews = await getListReviewProductPocket(productResp.id);
+  const variants = await getListVariantProductPocket(productResp.id);
+
+  for (const attr of attrs) {
+    const opts = await getListOptionAttributeProductPocket(attr.id);
+    attr.opts = opts;
+  }
+
+  for (const variant of variants) {
+    const opts = await getListOptionVariantPocket(variant.id);
+    variant.opts = opts;
+  }
+  const files: FileType[] = [];
+  const variantFileMap: Record<string, string> = {};
+
+  for (const f of fileReps) {
+    const file = {
+      id: f.id,
+      url: convertToFileUrl(f.expand?.file) ?? "",
+    };
+    files.push(file);
+    variantFileMap[f.variant] = f.id;
+  }
+
+  const formatAttrs = attrs.map((attr) => {
+    const opts = attr?.opts?.map((opt: { id: string; name: string }) => ({
+      id: opt?.id,
+      name: opt?.name,
+    }));
+    return { id: attr.id, name: attr?.name, opts };
+  });
+
+  const formatVariants = variants.map((variant) => {
+    const options: string[] = variant?.opts?.map(
+      (opt: { attribute_value: string }) => opt.attribute_value,
+    );
+    return {
+      id: variant.id,
+      price: variant?.price,
+      discount: variant?.discount * 100,
+      stock: variant?.stock,
+      sku: variant?.sku,
+      options,
+    };
+  });
+
+  return {
+    id: productResp.id,
+    name: productResp?.name,
+    thumbnail: convertToFileUrl(productResp?.expand?.thumbnail) ?? "",
+    content: JSON.stringify(productResp?.content),
+    price: productResp?.price,
+    discount: productResp?.discount * 100,
+    category: productResp?.expand?.category?.name,
+    files: files.filter((f) => f.url),
+    attrs: formatAttrs,
+    countReview: reviews.length,
+    rating:
+      reviews?.reduce((acc, cur) => acc + cur?.rating, 0) / reviews.length,
+
+    variants: formatVariants,
+    variantFileMap: variantFileMap,
+  };
+}
+
 export default async function Page({
   params,
 }: {
@@ -49,25 +122,20 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const product = await getProductBySlugPocket(slug);
-  const { id } = product;
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: [PRODUCT_COLLECTION, id],
-    queryFn: () => getOneProductPocket(id),
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: [FILE_GRAPH_COLLECTION, id],
-    queryFn: () => getListFileProductPocket(id),
-  });
+  const productData = await getProductHandler(slug);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Header />
       <main>
-        <ProductDetail key={id} slug={slug} productId={id} />
+        <div className="bg-background">
+          <div className="max-w-7xl mx-auto py-8">
+            <ProductInfo data={productData} />
+            <ProductTabs content={productData.content} />
+          </div>
+        </div>
       </main>
       <Footer />
     </HydrationBoundary>
