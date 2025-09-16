@@ -1,12 +1,15 @@
 "use client";
 
+import { useAtom } from "jotai";
 import CartItem from "@/app/cart/cart-item";
 import CartSummary from "@/app/cart/cart-summary";
 import EmptyCart from "@/app/cart/empty-cart";
-import { useCart } from "@/app/providers/cart";
+import { cartItemsAtom, removeItemAtom, updateQtyAtom } from "@/stores/cart";
 
 export default function CartInfo() {
-  const { items, removeItem, updateQty } = useCart();
+  const [items] = useAtom(cartItemsAtom);
+  const [, removeItem] = useAtom(removeItemAtom);
+  const [, updateQty] = useAtom(updateQtyAtom);
 
   if (items.length === 0) {
     return <EmptyCart />;
@@ -21,9 +24,9 @@ export default function CartInfo() {
               <CartItem
                 key={item.id}
                 item={item}
-                onRemove={removeItem}
+                onRemove={(id) => removeItem({ id })}
                 onQuantityChange={(q) => {
-                  updateQty(item.id, q);
+                  updateQty({ id: item.id, quantity: q });
                 }}
               />
             ))}

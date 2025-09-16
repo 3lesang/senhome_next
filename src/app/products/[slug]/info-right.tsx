@@ -1,11 +1,12 @@
+import { useAtom } from "jotai";
 import { Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useCart } from "@/app/providers/cart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatVND } from "@/lib/utils";
+import { addItemAtom } from "@/stores/cart";
 import type { VariantType } from "@/types/product";
 
 interface ProductInfoRightProps {
@@ -28,7 +29,7 @@ export default function ProductInfoRight({
   data,
   onVariantChange,
 }: ProductInfoRightProps) {
-  const { addItem } = useCart();
+  const [, addItem] = useAtom(addItemAtom);
   const [quantity, setQuantity] = useState(1);
   const [options, setOptions] = useState<Record<string, string>>({});
   const [variant, setVariant] = useState<VariantType>();
@@ -86,6 +87,7 @@ export default function ProductInfoRight({
       id: variant?.id ?? id,
       name,
       price,
+      discount: discount,
       quantity,
       thumbnail: data.thumbnail,
       variantId: variant?.id ?? "",

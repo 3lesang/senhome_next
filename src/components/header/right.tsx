@@ -1,12 +1,13 @@
 "use client";
 
+import { useAtom } from "jotai";
 import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { useCart } from "@/app/providers/cart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cartTotalQtyAtom } from "@/stores/cart";
 import HeaderSearchBar from "./search-bar";
 
 const mobileNavItems = [
@@ -17,8 +18,9 @@ const mobileNavItems = [
   { name: "Contact", href: "/contact" },
 ];
 
-function HeaderRight() {
-  const { total } = useCart();
+export default function HeaderRight() {
+  const [totalQty] = useAtom(cartTotalQtyAtom);
+
   return (
     <div className="flex items-center space-x-2">
       <HeaderSearchBar />
@@ -38,12 +40,12 @@ function HeaderRight() {
       <Link href="/cart">
         <Button variant="ghost" size="icon" className="relative">
           <ShoppingCart className="h-5 w-5" />
-          {total > 0 && (
+          {totalQty > 0 && (
             <Badge
               variant="destructive"
               className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
             >
-              {total}
+              {totalQty}
             </Badge>
           )}
           <span className="sr-only">Shopping cart</span>
@@ -112,5 +114,3 @@ function HeaderRight() {
     </div>
   );
 }
-
-export default HeaderRight;

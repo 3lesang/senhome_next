@@ -1,98 +1,178 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
+import { useImperativeHandle } from "react";
+import { type UseFormReturn, useForm } from "react-hook-form";
+import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
-interface CustomerData {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-}
+const formSchema = z.object({
+  email: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  phone: z.string(),
+});
 
+export type CustomerFormValues = z.infer<typeof formSchema>;
 interface CustomerFormProps {
-  data: CustomerData;
-  onChange: (data: CustomerData) => void;
-  errors: Record<string, string>;
+  ref?: React.Ref<UseFormReturn<CustomerFormValues>>;
 }
 
-export const CustomerForm: React.FC<CustomerFormProps> = ({
-  data,
-  onChange,
-  errors,
-}) => {
-  const handleChange = (field: keyof CustomerData, value: string) => {
-    onChange({ ...data, [field]: value });
-  };
+export default function CustomerForm({ ref }: CustomerFormProps) {
+  const form = useForm<CustomerFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      phone: "",
+    },
+  });
+
+  useImperativeHandle(ref, () => form, [form]);
+
+  function onSubmit(values: CustomerFormValues) {
+    console.log(values);
+  }
+
+  function onReset() {
+    form.reset();
+    form.clearErrors();
+  }
 
   return (
-    <Card>
+    <Card className="border-0 shadow-none">
       <CardHeader>
-        <CardTitle>Customer Information</CardTitle>
+        <CardTitle>Thông tin khách hàng</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email Address *</Label>
-          <Input
-            type="email"
-            id="email"
-            value={data.email}
-            onChange={(e) => handleChange("email", e.target.value)}
-            placeholder="john.doe@example.com"
-            className={errors.email ? "border-destructive" : ""}
-          />
-          {errors.email && (
-            <p className="text-sm text-destructive">{errors.email}</p>
-          )}
-        </div>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            onReset={onReset}
+            className="space-y-8 @container"
+          >
+            <div className="grid grid-cols-12 gap-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                    <FormLabel className="flex shrink-0">Email</FormLabel>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First Name *</Label>
-            <Input
-              type="text"
-              id="firstName"
-              value={data.firstName}
-              onChange={(e) => handleChange("firstName", e.target.value)}
-              placeholder="John"
-              className={errors.firstName ? "border-destructive" : ""}
-            />
-            {errors.firstName && (
-              <p className="text-sm text-destructive">{errors.firstName}</p>
-            )}
-          </div>
+                    <div className="w-full">
+                      <FormControl>
+                        <div className="relative w-full">
+                          <Input
+                            key="text-input-2"
+                            placeholder="Địa chỉ email"
+                            type="text"
+                            id="text-input-2"
+                            className=" "
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
 
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name *</Label>
-            <Input
-              type="text"
-              id="lastName"
-              value={data.lastName}
-              onChange={(e) => handleChange("lastName", e.target.value)}
-              placeholder="Doe"
-              className={errors.lastName ? "border-destructive" : ""}
-            />
-            {errors.lastName && (
-              <p className="text-sm text-destructive">{errors.lastName}</p>
-            )}
-          </div>
-        </div>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                    <FormLabel className="flex shrink-0">Họ</FormLabel>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone Number *</Label>
-          <Input
-            type="tel"
-            id="phone"
-            value={data.phone}
-            onChange={(e) => handleChange("phone", e.target.value)}
-            placeholder="(555) 123-4567"
-            className={errors.phone ? "border-destructive" : ""}
-          />
-          {errors.phone && (
-            <p className="text-sm text-destructive">{errors.phone}</p>
-          )}
-        </div>
+                    <div className="w-full">
+                      <FormControl>
+                        <div className="relative w-full">
+                          <Input
+                            key="text-input-1"
+                            placeholder="Họ"
+                            type="text"
+                            id="text-input-1"
+                            className=" "
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem className="col-span-6 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                    <FormLabel className="flex shrink-0">Tên</FormLabel>
+
+                    <div className="w-full">
+                      <FormControl>
+                        <div className="relative w-full">
+                          <Input
+                            key="text-input-0"
+                            placeholder="Tên"
+                            type="text"
+                            id="text-input-0"
+                            className=" "
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                    <FormLabel className="flex shrink-0">
+                      Số điện thoại
+                    </FormLabel>
+
+                    <div className="w-full">
+                      <FormControl>
+                        <div className="relative w-full">
+                          <Input
+                            key="tel-input-0"
+                            placeholder="Số điện thoại"
+                            type="tel"
+                            id="tel-input-0"
+                            className=" "
+                            {...field}
+                          />
+                        </div>
+                      </FormControl>
+
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );
-};
+}

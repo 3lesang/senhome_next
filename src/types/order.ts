@@ -1,4 +1,4 @@
-export interface CartItemType {
+export interface OrderItemType {
   id: string;
   name: string;
   price: number;
@@ -13,6 +13,6 @@ export interface CartItemType {
   }[];
 }
 
-export interface CartState {
-  items: CartItemType[];
+export interface OrderState {
+  items: OrderItemType[];
 }
