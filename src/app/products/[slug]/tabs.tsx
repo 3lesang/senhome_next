@@ -1,6 +1,8 @@
 "use client";
 
-import Editor from "@/components/editor";
+import { generateHTML } from "@tiptap/html";
+import parse from "html-react-parser";
+import { extensions } from "@/components/editor/extensions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ProductTabsProps {
@@ -8,6 +10,8 @@ interface ProductTabsProps {
 }
 
 export default function ProductTabs({ content }: ProductTabsProps) {
+  const html = generateHTML(JSON.parse(content), extensions);
+
   return (
     <Tabs defaultValue="description" className="w-full">
       <TabsList className="grid grid-cols-2">
@@ -16,7 +20,7 @@ export default function ProductTabs({ content }: ProductTabsProps) {
       </TabsList>
 
       <TabsContent value="description" className="space-y-6 mt-6">
-        <Editor content={content} />
+        {parse(html)}
       </TabsContent>
 
       <TabsContent value="reviews" className="space-y-6 mt-6"></TabsContent>
