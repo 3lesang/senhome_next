@@ -4,10 +4,10 @@ import type { CartItemType, CartState } from "@/types/cart";
 
 export const cartAtom = atomWithStorage<CartState>("cart", { items: [] });
 
-export const cartItemsAtom = atom((get) => get(cartAtom).items);
+export const cartItemsAtom = atom((get) => get(cartAtom)?.items);
 
 export const cartTotalQtyAtom = atom((get) =>
-  get(cartAtom).items.reduce((sum, i) => sum + i.quantity, 0),
+  get(cartAtom)?.items?.reduce((sum, i) => sum + i.quantity, 0),
 );
 
 export const addItemAtom = atom(null, (get, set, item: CartItemType) => {
