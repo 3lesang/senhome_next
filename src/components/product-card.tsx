@@ -8,12 +8,20 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { formatVND, isValidUrl } from "@/lib/utils";
 import { addItemAtom } from "@/stores/cart";
 import type { FileType } from "@/types/file";
 import type { AttributeOptionType, VariantType } from "@/types/product";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "./ui/dialog";
 
 export type ProductDataType = {
   id: string;
@@ -177,50 +185,63 @@ export default function ProductCard({ data }: ProductCardProps) {
           </CardFooter>
         </Card>
       </Link>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogTitle>Chọn phân loại</DialogTitle>
-          <div className="flex gap-1">
-            {fileUrl && <Image height={100} width={100} src={fileUrl} alt="" />}
-            {Number(variant?.price) > 0 && (
-              <span>{formatVND(variant?.price)}</span>
-            )}
-          </div>
-          <div className="space-y-4">
-            {attrs.map((attr) => (
-              <div key={attr.id}>
-                <h3 className="font-semibold mb-3">{attr.name}</h3>
-                <div className="grid grid-cols-4 gap-2">
-                  {attr.opts.map((opt) => (
-                    <Button
-                      key={opt.id}
-                      variant={
-                        options[attr.id] === opt.id ? "default" : "outline"
-                      }
-                      className="h-auto py-2"
-                      onClick={() => handleOptionClick(attr.id, opt.id)}
-                    >
-                      {opt.name}
-                    </Button>
-                  ))}
-                </div>
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Chọn phân loại</DrawerTitle>
+            <DrawerDescription></DrawerDescription>
+          </DrawerHeader>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex gap-4 mb-4 items-end">
+              {fileUrl && (
+                <Image height={100} width={100} src={fileUrl} alt="" />
+              )}
+              <div>
+                <h3 className="font-semibold">Giá</h3>
+                {Number(variant?.price) > 0 && (
+                  <span>{formatVND(variant?.price)}</span>
+                )}
               </div>
-            ))}
+            </div>
+            <div className="space-y-4">
+              {attrs.map((attr) => (
+                <div key={attr.id}>
+                  <h3 className="font-semibold mb-3">{attr.name}</h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    {attr.opts.map((opt) => (
+                      <Button
+                        key={opt.id}
+                        variant={
+                          options[attr.id] === opt.id ? "default" : "outline"
+                        }
+                        className="h-auto py-2"
+                        onClick={() => handleOptionClick(attr.id, opt.id)}
+                      >
+                        {opt.name}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              className="w-full"
-              onClick={() => {
-                handleAddToCart();
-                setOpen(false);
-              }}
-            >
-              Thêm vào giỏ
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <DrawerFooter>
+            <DrawerClose>
+              <Button
+                onClick={() => {
+                  handleAddToCart();
+                  setOpen(false);
+                }}
+              >
+                Thêm vào giỏ
+              </Button>
+            </DrawerClose>
+            <DrawerClose>
+              <Button variant="outline">Hủy</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
