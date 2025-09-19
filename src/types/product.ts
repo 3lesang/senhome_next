@@ -22,3 +22,19 @@ export type VariantType = {
   sku: string;
   options: string[];
 };
+
+export type AttributeType = {
+  id: string;
+  name: string;
+};
+
+export type OptionType = {
+  id: string;
+  name: string;
+};
+
+export type AttributeOptionType = {
+  id: string;
+  name: string;
+  opts: OptionType[];
+};

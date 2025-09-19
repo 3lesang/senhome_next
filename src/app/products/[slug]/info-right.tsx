@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatVND } from "@/lib/utils";
 import { addItemAtom } from "@/stores/cart";
-import type { VariantType } from "@/types/product";
+import type { AttributeOptionType, VariantType } from "@/types/product";
 
 interface ProductInfoRightProps {
   data: {
@@ -16,7 +16,7 @@ interface ProductInfoRightProps {
     category: string;
     price: number;
     discount: number;
-    attrs: { id: string; name: string; opts: { id: string; name: string }[] }[];
+    attrs: AttributeOptionType[];
     variants: VariantType[];
     countReview: number;
     rating: number;
@@ -44,8 +44,24 @@ export default function ProductInfoRight({
     countReview,
   } = data;
 
+  const lowestVariant = data.variants?.[0];
+  const highestVariant = data.variants?.[data.variants.length - 1];
+
   const price = variant?.price ?? productPrice;
   const discount = variant?.discount ?? productDiscount;
+
+  const checkVariant = data.variants.length && !variant?.id;
+
+  const priceVariantText = `${formatVND(lowestVariant?.price)} - ${formatVND(highestVariant?.price)}`;
+  const discountPriceVariantText = `${formatVND(lowestVariant.price * (1 - lowestVariant.discount / 100))} - ${formatVND(highestVariant.price * (1 - highestVariant.discount / 100))}`;
+
+  const priceText = checkVariant ? priceVariantText : formatVND(price);
+
+  const discountPriceText = checkVariant
+    ? discountPriceVariantText
+    : formatVND(price * (1 - discount / 100));
+
+  const addToCartPriceText = formatVND(price * (1 - discount / 100) * quantity);
 
   const handleOptionClick = (attrId: string, optId: string) => {
     const newOptions = { ...options, [attrId]: optId };
@@ -128,14 +144,12 @@ export default function ProductInfoRight({
         <span className="text-muted-foreground">({countReview} đánh giá)</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <span className="text-3xl font-bold">
-          {formatVND(price * (1 - discount / 100))}
-        </span>
-        {discount > 0 && (
-          <span className="text-xl text-muted-foreground line-through">
-            {formatVND(price)}
-          </span>
+      <div>
+        <p className="text-3xl font-bold">{discountPriceText}</p>
+        {(discount > 0 || checkVariant) && (
+          <p className="text-xl text-muted-foreground line-through">
+            {priceText}
+          </p>
         )}
       </div>
 
@@ -179,9 +193,8 @@ export default function ProductInfoRight({
           </Button>
         </div>
       </div>
-
       <Button className="w-full" size="lg" onClick={handleAddToCart}>
-        Thêm vào giỏ - {formatVND(price * (1 - discount / 100) * quantity)}
+        Thêm vào giỏ - {addToCartPriceText}
       </Button>
     </div>
   );

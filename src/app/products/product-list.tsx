@@ -1,6 +1,6 @@
 "use client";
 
-import ProductFilters from "./components/filter";
+import ProductFilters from "./filter";
 
 export default function ListProductPage() {
   return (

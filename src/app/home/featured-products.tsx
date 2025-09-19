@@ -1,9 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import ProductCard, { type ProductDataType } from "@/components/product-card";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 interface FeaturedProductsProps {
   data?: ProductDataType[];
@@ -25,20 +22,18 @@ export default function FeaturedProducts({ data }: FeaturedProductsProps) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {data?.map((item) => (
-            <Link key={item.id} href={`/products/${item?.slug}`}>
-              <ProductCard data={item} />
-            </Link>
+            <ProductCard key={item.id} data={item} />
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        {/* <div className="text-center mt-12">
           <Link
             href="/products"
             className={cn(buttonVariants({ variant: "outline" }))}
           >
             Xem tất cả
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   );
