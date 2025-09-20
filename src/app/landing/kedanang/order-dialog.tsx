@@ -5,6 +5,14 @@ import { useAtom } from "jotai";
 import { CheckCircle, Loader2Icon } from "lucide-react";
 import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import CustomerForm, {
+  type CustomerFormValues,
+} from "@/app/checkout/customer-form";
+import type { OrderSummaryType } from "@/app/checkout/order-summary";
+import ShippingForm, {
+  type ShippingFormValues,
+} from "@/app/checkout/shipping-form";
+import { useSummary } from "@/app/checkout/useSummary";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,14 +27,6 @@ import {
   type CreateItemOrderPayload,
   createItemOrderPocket,
 } from "@/pocketbase/order/item";
-import CustomerForm, {
-  type CustomerFormValues,
-} from "../checkout/customer-form";
-import type { OrderSummaryType } from "../checkout/order-summary";
-import ShippingForm, {
-  type ShippingFormValues,
-} from "../checkout/shipping-form";
-import { useSummary } from "../checkout/useSummary";
 import { openFormAtom, orderItemsAtom } from "./atom";
 
 export default function OrderDialog() {
