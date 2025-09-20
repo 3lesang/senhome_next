@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/",
+        has: [
+          {
+            type: "host",
+            value: "kedanang.senhome.vn",
+          },
+        ],
+        destination: "https://kedanang.senhome.vn/ke-da-nang",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
