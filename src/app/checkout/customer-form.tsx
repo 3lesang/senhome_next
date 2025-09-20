@@ -17,10 +17,18 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  email: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  phone: z.string(),
+  email: z.email("Email không hợp lệ"),
+  firstName: z
+    .string()
+    .min(2, "Tên phải có ít nhất 2 ký tự")
+    .max(50, "Tên không được vượt quá 50 ký tự"),
+  lastName: z
+    .string()
+    .min(2, "Họ phải có ít nhất 2 ký tự")
+    .max(50, "Họ không được vượt quá 50 ký tự"),
+  phone: z
+    .string()
+    .regex(/^0\d{9}$/, "Số điện thoại phải có 10 chữ số và bắt đầu bằng 0"),
 });
 
 export type CustomerFormValues = z.infer<typeof formSchema>;

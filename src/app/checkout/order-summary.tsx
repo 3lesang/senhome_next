@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { formatVND } from "@/lib/utils";
 import type { OrderItemType } from "@/types/order";
+import { useSummary } from "./useSummary";
 
 export type OrderSummaryType = {
   totalPrice: number;
@@ -36,18 +37,8 @@ export default function OrderSummary({
   onConfirm,
   isPending,
 }: OrderSummaryProps) {
-  const shippingFee = 0;
-
-  const { totalPrice, discountPrice } = items.reduce(
-    (acc, cur) => ({
-      totalPrice: acc.totalPrice + cur.price * (cur.quantity ?? 1),
-      discountPrice:
-        acc.discountPrice + cur.price * (cur.discount / 100) * cur.quantity,
-    }),
-    { totalPrice: 0, discountPrice: 0 },
-  );
-
-  const finalPrice = totalPrice - discountPrice + shippingFee;
+  const { totalPrice, discountPrice, shippingFee, finalPrice } =
+    useSummary(items);
 
   useImperativeHandle(ref, () => ({
     totalPrice,

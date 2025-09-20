@@ -25,18 +25,18 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  street: z.string(),
+  street: z.string().min(1, "Vui lòng nhập địa chỉ đường / số nhà"),
   province: z.object({
-    id: z.string(),
-    name: z.string(),
+    id: z.string().min(1, "Vui lòng chọn tỉnh/thành phố"),
+    name: z.string().min(1, "Tên tỉnh/thành phố không hợp lệ"),
   }),
   district: z.object({
-    id: z.string(),
-    name: z.string(),
+    id: z.string().min(1, "Vui lòng chọn quận/huyện"),
+    name: z.string().min(1, "Tên quận/huyện không hợp lệ"),
   }),
   ward: z.object({
-    id: z.string(),
-    name: z.string(),
+    id: z.string().min(1, "Vui lòng chọn phường/xã"),
+    name: z.string().min(1, "Tên phường/xã không hợp lệ"),
   }),
 });
 

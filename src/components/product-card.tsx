@@ -31,7 +31,7 @@ export type ProductDataType = {
   discount: number;
   thumbnail: string;
   rating: number;
-  reviewCount: number;
+  countReview: number;
   attrs: AttributeOptionType[];
   variants: VariantType[];
   files: FileType[];
@@ -55,7 +55,7 @@ export default function ProductCard({ data }: ProductCardProps) {
     price,
     discount,
     rating,
-    reviewCount,
+    countReview,
     attrs,
     slug,
     variantFileMap,
@@ -163,7 +163,7 @@ export default function ProductCard({ data }: ProductCardProps) {
                 <span className="text-sm text-muted-foreground">{rating}</span>
               </div>
               <span className="text-sm text-muted-foreground">
-                {reviewCount > 0 ? reviewCount : "Chưa có"} đánh giá
+                {countReview > 0 ? countReview : "Chưa có"} đánh giá
               </span>
             </div>
 

@@ -85,6 +85,7 @@ export async function getProductHandler(id: string) {
   return {
     id: productResp.id,
     name: productResp?.name,
+    slug: productResp?.slug,
     thumbnail: convertToFileUrl(productResp?.expand?.thumbnail) ?? "",
     content: JSON.stringify(productResp?.content),
     price: productResp?.price,
@@ -126,7 +127,7 @@ export async function getFeatureProductHandler() {
       discount,
       thumbnail: convertToFileUrl(item.expand?.thumbnail) ?? "",
       rating: item?.rating ?? 0,
-      reviewCount: item?.countReview ?? 0,
+      countReview: item?.countReview ?? 0,
       attrs: item.attrs,
       variants: item.variants,
       files: item?.files,
