@@ -10,7 +10,7 @@ export default function CTAButton() {
     setOpen(true);
   };
   return (
-    <div className="flex h-56 justify-center items-center">
+    <div className="flex h-32 lg:h-56 justify-center items-center">
       <Button type="button" onClick={handleClick}>
         Mua ngay
       </Button>

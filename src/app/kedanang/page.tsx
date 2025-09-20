@@ -47,7 +47,7 @@ export default async function Page() {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <main>
         <div className="bg-background">
-          <div className="max-w-7xl mx-auto py-8">
+          <div className="max-w-7xl mx-auto lg:py-8">
             <ProductInfo data={productData} />
             <ProductTabs content={productData.content} />
             <CTAButton />

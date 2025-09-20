@@ -34,7 +34,7 @@ export default function ProductInfo({ data }: ProductInfoProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+    <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12 mb-12">
       <ProductGallery data={data.files} ref={apiRef} />
       <ProductInfoRight data={data} onVariantChange={handleVariantChange} />
     </div>

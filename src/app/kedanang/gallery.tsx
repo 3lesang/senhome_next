@@ -52,7 +52,7 @@ function ProductGalleryThumbnail({
             <Button
               variant="outline"
               className={cn(
-                "p-0 size-20 overflow-hidden transition-all duration-200 select-none",
+                "p-0 size-14 lg:size-20 overflow-hidden transition-all duration-200 select-none",
                 current === index && "ring-2 ring-primary",
               )}
               onClick={() => handleClick(index)}
@@ -115,7 +115,7 @@ export default function ProductGallery({ data, ref }: ProductGalleryProps) {
                   width={1000}
                   src={item.url}
                   alt="image"
-                  className="w-full h-full object-contain aspect-square rounded-lg"
+                  className="w-full h-full object-contain aspect-square lg:rounded-lg"
                   onClick={handleImageClick}
                 />
               )}

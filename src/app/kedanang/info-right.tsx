@@ -114,7 +114,7 @@ export default function ProductInfoRight({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4">
       <div>
         <div className="flex items-center gap-2 mb-3">
           <Badge variant="secondary">{category}</Badge>
@@ -158,7 +158,7 @@ export default function ProductInfoRight({
       {data.attrs.map((attr) => (
         <div key={attr.id}>
           <h3 className="font-semibold mb-3">{attr.name}</h3>
-          <div className="flex gap-2 flex-wrap">
+          <div className="grid grid-cols-3 lg:flex gap-2 lg:flex-wrap">
             {attr.opts.map((opt) => (
               <Button
                 key={opt.id}

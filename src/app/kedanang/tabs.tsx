@@ -17,7 +17,7 @@ export default function ProductTabs({ content }: ProductTabsProps) {
       <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-center">
         Thông tin sản phẩm
       </h2>
-      <TabsContent value="description" className="space-y-6 mt-6">
+      <TabsContent value="description" className="space-y-6 mt-6 px-4">
         {parse(html)}
       </TabsContent>
     </Tabs>

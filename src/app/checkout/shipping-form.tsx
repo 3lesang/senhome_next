@@ -162,7 +162,7 @@ export default function ShippingForm({ ref }: ShippingFormProps) {
                 control={form.control}
                 name="province"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                  <FormItem className="col-span-4 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
                     <FormLabel className="flex shrink-0">
                       Tỉnh/Thành Phố
                     </FormLabel>
@@ -204,7 +204,7 @@ export default function ShippingForm({ ref }: ShippingFormProps) {
                 control={form.control}
                 name="district"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                  <FormItem className="col-span-4 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
                     <FormLabel className="flex shrink-0">Quận/Huyện</FormLabel>
 
                     <div className="w-full">
@@ -247,7 +247,7 @@ export default function ShippingForm({ ref }: ShippingFormProps) {
                 control={form.control}
                 name="ward"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
+                  <FormItem className="col-span-4 lg:col-span-4 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start">
                     <FormLabel className="flex shrink-0">Pường/Xã</FormLabel>
 
                     <div className="w-full">
