@@ -5,6 +5,7 @@ async function getListFileProductPocket(productId: string) {
   const res = await pocketClient.collection(FILE_GRAPH_COLLECTION).getFullList({
     filter: `product="${productId}"||variant.product="${productId}"`,
     expand: "file",
+    sort: "order",
   });
   return res;
 }
