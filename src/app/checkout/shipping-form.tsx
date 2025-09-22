@@ -120,11 +120,11 @@ export default function ShippingForm({ ref }: ShippingFormProps) {
   });
 
   return (
-    <Card className="border-0 shadow-none">
-      <CardHeader>
+    <Card className="border-0 shadow-none p-0 gap-1">
+      <CardHeader className="p-0">
         <CardTitle>Địa chỉ nhận hàng</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

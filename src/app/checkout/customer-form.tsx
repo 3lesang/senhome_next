@@ -59,11 +59,11 @@ export default function CustomerForm({ ref }: CustomerFormProps) {
   }
 
   return (
-    <Card className="border-0 shadow-none">
-      <CardHeader>
+    <Card className="border-0 shadow-none p-0 gap-1">
+      <CardHeader className="p-0">
         <CardTitle>Thông tin khách hàng</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}

@@ -14,7 +14,8 @@ import OrderDialog from "./order-dialog";
 import ProductTabs from "./tabs";
 import VariantSelect from "./variant-select";
 
-const slug = "ke-e-o-dung-a-nang-inox-senhome";
+const slug =
+  "ke-up-chen-inox-304-da-nang-senhome-ke-de-bat-dia-tren-bon-rua-thong-minh-tien-loi";
 
 export async function generateMetadata(): Promise<Metadata> {
   const resp = await getProductBySlugPocket(slug);
