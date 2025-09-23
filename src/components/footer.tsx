@@ -1,17 +1,31 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import { Facebook, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { POLICY_COLLECTION, STORE_COLLECTION } from "@/pocketbase/constants";
+import { getStorePocket } from "@/pocketbase/store/one";
+import { getListPolicyPocket } from "@/pocketbase/store/policy/list";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const { data } = useQuery({
+    queryKey: [STORE_COLLECTION],
+    queryFn: () => getStorePocket(),
+    select(data) {
+      return data?.[0];
+    },
+  });
+
+  const { data: policies } = useQuery({
+    queryKey: [POLICY_COLLECTION],
+    queryFn: () => getListPolicyPocket(),
+  });
+
   const footerLinks = {
-    product: [
-      { name: "Tính năng", href: "#features" },
-      { name: "Bảng giá", href: "#pricing" },
-      { name: "API", href: "#api" },
-      { name: "Tài liệu", href: "#docs" },
-    ],
     company: [
       { name: "Về chúng tôi", href: "#about" },
       { name: "Blog", href: "#blog" },
@@ -33,8 +47,8 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { name: "Facebook", href: "#facebook", icon: Facebook },
-    { name: "Youtube", href: "#youtube", icon: Youtube },
+    { name: "Facebook", href: data?.social?.facebook, icon: Facebook },
+    { name: "Youtube", href: data?.social?.youtube, icon: Youtube },
   ];
 
   return (
@@ -43,54 +57,34 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Phần thương hiệu */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <div className="flex items-center space-x-2 mb-4">
               <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">
                   B
                 </span>
               </div>
-              <span className="font-bold text-xl">SenHome</span>
+              <span className="font-bold text-xl">{data?.name}</span>
             </div>
             <p className="text-muted-foreground mb-6 max-w-xs">
-              Kiến tạo nét đẹp không gian sống
+              {data?.description}
             </p>
 
             {/* Thông tin liên hệ */}
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <span>sales.senhome@gmail.com</span>
+                <span>{data?.email}</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4" />
-                <span>093 310 86 80</span>
+                <span>{data?.phone}</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground max-w-lg">
                 <MapPin className="h-4 min-w-4" />
-                <span>
-                  Số 23 Đường Số 5, KDC Cotec, Ấp 1, Xã Phú Xuân, Huyện Nhà Bè,
-                  TP.Hồ Chí Minh, Việt Nam
-                </span>
+                <span>{data?.address}</span>
               </div>
             </div>
-          </div>
-
-          {/* Liên kết sản phẩm */}
-          <div>
-            <h4 className="font-semibold mb-4">Sản phẩm</h4>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Liên kết công ty */}
@@ -129,16 +123,16 @@ export default function Footer() {
 
           {/* Liên kết pháp lý */}
           <div>
-            <h4 className="font-semibold mb-4">Pháp lý</h4>
+            <h4 className="font-semibold mb-4">Chính sách</h4>
             <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
+              {policies?.map((item) => (
+                <li key={item.id}>
+                  <Link
+                    href={`/policy/${item.slug}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {link.name}
-                  </a>
+                    {item.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -168,6 +162,7 @@ export default function Footer() {
               >
                 <a
                   href={social.href}
+                  target="_blank"
                   aria-label={social.name}
                   className="hover:bg-accent"
                 >

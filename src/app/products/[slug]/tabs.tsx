@@ -20,7 +20,7 @@ export default function ProductTabs({ content }: ProductTabsProps) {
       </TabsList>
 
       <TabsContent value="description" className="space-y-6 mt-6">
-        {parse(html)}
+        <div className="prose !max-w-none">{parse(html)}</div>
       </TabsContent>
 
       <TabsContent value="reviews" className="space-y-6 mt-6"></TabsContent>
