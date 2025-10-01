@@ -14,3 +14,4 @@ export const USER_COLLECTION = "sen_users";
 export const PRODUCT_REVIEW_COLLECTION = "sen_product_reviews";
 export const STORE_COLLECTION = "sen_store";
 export const MENU_COLLECTION = "sen_menus";
+export const PAGE_COLLECTION = "sen_pages";

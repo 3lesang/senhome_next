@@ -7,7 +7,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getOnePolicyPocket } from "@/pocketbase/store/policy/one";
+import { getPagePocket } from "@/pocketbase/page";
 import Content from "./content";
 
 export default async function Page({
@@ -17,7 +17,8 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const policy = await getOnePolicyPocket(slug);
+  const page = await getPagePocket(slug);
+
   return (
     <>
       <Header />
@@ -25,16 +26,16 @@ export default async function Page({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Chính sách</BreadcrumbLink>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="">{policy.title}</BreadcrumbLink>
+              <BreadcrumbLink href="">{page.title}</BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <h3 className="font-bold text-2xl">{policy.title}</h3>
-        <Content data={JSON.stringify(policy.content)} />
+        <h3 className="font-bold text-2xl">{page.title}</h3>
+        <Content data={JSON.stringify(page.content)} />
       </main>
       <Footer />
     </>
