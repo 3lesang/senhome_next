@@ -1,5 +1,5 @@
 import pocketClient from "@/pocketbase/client";
-import { PRODUCT_ATTRIBUTE_COLLECTION } from "@/pocketbase/constants";
+import { PRODUCT_ATTRIBUTE_COLLECTION } from "@/pocketbase/consts";
 
 async function getListAttributeProductPocket(productId: string) {
   const res = await pocketClient

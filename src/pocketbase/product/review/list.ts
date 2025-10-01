@@ -1,5 +1,5 @@
 import pocketClient from "@/pocketbase/client";
-import { PRODUCT_REVIEW_COLLECTION } from "@/pocketbase/constants";
+import { PRODUCT_REVIEW_COLLECTION } from "@/pocketbase/consts";
 
 async function getListReviewProductPocket(productId: string) {
   const res = await pocketClient

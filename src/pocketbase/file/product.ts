@@ -1,5 +1,5 @@
 import pocketClient from "@/pocketbase/client";
-import { FILE_GRAPH_COLLECTION } from "@/pocketbase/constants";
+import { FILE_GRAPH_COLLECTION } from "../consts";
 
 async function getListFileProductPocket(productId: string) {
   const res = await pocketClient.collection(FILE_GRAPH_COLLECTION).getFullList({

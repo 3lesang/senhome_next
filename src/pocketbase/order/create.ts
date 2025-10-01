@@ -1,5 +1,5 @@
 import pocketClient from "../client";
-import { ORDER_COLLECTION } from "../constants";
+import { ORDER_COLLECTION } from "../consts";
 
 type CreateOrderPayload = {
   name: string;

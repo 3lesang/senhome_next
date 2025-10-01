@@ -13,4 +13,4 @@ export const ORDER_ITEM_COLLECTION = "sen_order_items";
 export const USER_COLLECTION = "sen_users";
 export const PRODUCT_REVIEW_COLLECTION = "sen_product_reviews";
 export const STORE_COLLECTION = "sen_store";
-export const POLICY_COLLECTION = "sen_policies";
+export const MENU_COLLECTION = "sen_menus";

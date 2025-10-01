@@ -1,5 +1,5 @@
 import pocketClient from "../client";
-import { ORDER_ITEM_COLLECTION } from "../constants";
+import { ORDER_ITEM_COLLECTION } from "../consts";
 
 export type CreateItemOrderPayload = {
   price: number;

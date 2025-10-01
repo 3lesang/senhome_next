@@ -6,9 +6,8 @@ import {
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { getFeatureProductHandler } from "@/handlers/product";
-import { POLICY_COLLECTION, STORE_COLLECTION } from "@/pocketbase/constants";
+import { STORE_COLLECTION } from "@/pocketbase/consts";
 import { getStorePocket } from "@/pocketbase/store/one";
-import { getListPolicyPocket } from "@/pocketbase/store/policy/list";
 import FeaturedProducts from "./home/featured-products";
 import { Features } from "./home/features";
 import HeroCarousel from "./home/hero/hero-carousel";
@@ -21,11 +20,6 @@ export default async function Page() {
   await queryClient.prefetchQuery({
     queryKey: [STORE_COLLECTION],
     queryFn: () => getStorePocket(),
-  });
-
-  await queryClient.prefetchQuery({
-    queryKey: [POLICY_COLLECTION],
-    queryFn: () => getListPolicyPocket(),
   });
 
   return (

@@ -1,4 +1,6 @@
-import { Package, Shield, Star, Truck, Zap } from "lucide-react";
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -9,124 +11,98 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { MENU_COLLECTION } from "@/pocketbase/consts";
+import { getMenuPocket } from "@/pocketbase/menu";
+import type { MenuType } from "@/types/menu";
 
-const navigationItems = [
-  {
-    title: "Sản phẩm",
-    href: "/products",
-    description: "Browse our complete product catalog",
-    items: [
-      {
-        title: "New Arrivals",
-        href: "/new",
-        description: "Latest products and collections",
-        icon: Star,
-      },
-      {
-        title: "Best Sellers",
-        href: "/bestsellers",
-        description: "Most popular items",
-        icon: Zap,
-      },
-      {
-        title: "Categories",
-        href: "/categories",
-        description: "Shop by category",
-        icon: Package,
-      },
-    ],
-  },
-  {
-    title: "Dịch vụ",
-    href: "/services",
-    description: "Our professional services",
-    items: [
-      {
-        title: "Fast Shipping",
-        href: "/shipping",
-        description: "Free delivery on orders over $50",
-        icon: Truck,
-      },
-      {
-        title: "Warranty",
-        href: "/warranty",
-        description: "Comprehensive product protection",
-        icon: Shield,
-      },
-    ],
-  },
-];
+function buildTree(
+  items: MenuType[],
+  parentId: string | null = null,
+): MenuType[] {
+  return items
+    .filter((item) => item.parentId === parentId)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+    .map((item) => ({
+      ...item,
+      children: buildTree(items, item.id),
+    }));
+}
+
+function MegaMenu({ item }: { item: MenuType }) {
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuTrigger className="h-9 bg-transparent">
+        {item.title}
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <div className="grid grid-cols-4 gap-6 p-6 w-[900px]">
+          {/* Left column = parent info */}
+          <div className="col-span-1 flex flex-col">
+            <Link
+              href={item.url || "#"}
+              className="font-semibold text-base hover:underline mb-2"
+            >
+              {item.title}
+            </Link>
+          </div>
+
+          {/* Child columns */}
+          {item.children?.map((child) => (
+            <div key={child.id} className="flex flex-col gap-2">
+              <Link
+                href={child.url || "#"}
+                className="font-semibold text-sm text-foreground hover:underline"
+              >
+                {child.title}
+              </Link>
+              <ul className="flex flex-col gap-1">
+                {child.children?.map((sub) => (
+                  <li key={sub.id}>
+                    <Link
+                      href={sub.url || "#"}
+                      className="text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {sub.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  );
+}
 
 export default function HeaderNavigationMenu() {
+  const { data } = useQuery({
+    queryKey: [MENU_COLLECTION, "header"],
+    queryFn: () => getMenuPocket(`position="header"`),
+  });
+
+  const menuItems: MenuType[] = data?.items ?? [];
+  const tree = buildTree(menuItems);
+
   return (
     <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
-        {navigationItems.map((item) => (
-          <NavigationMenuItem key={item.title}>
-            <NavigationMenuTrigger className="h-9 bg-transparent">
-              {item.title}
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <div className="grid gap-3 p-6 w-[400px]">
-                <div className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href={item.href}
-                    >
-                      <div className="mb-2 mt-4 text-lg font-medium">
-                        {item.title}
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        {item.description}
-                      </p>
-                    </Link>
-                  </NavigationMenuLink>
-                </div>
-                <div className="grid gap-2">
-                  {item.items.map((subItem) => (
-                    <NavigationMenuLink key={subItem.title} asChild>
-                      <Link
-                        href={subItem.href}
-                        className="group grid h-auto w-full items-center justify-start gap-1 rounded-md bg-background p-4 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                      >
-                        <div className="flex items-center gap-2">
-                          <subItem.icon className="h-4 w-4" />
-                          <div className="text-sm font-medium leading-none">
-                            {subItem.title}
-                          </div>
-                        </div>
-                        <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          {subItem.description}
-                        </div>
-                      </Link>
-                    </NavigationMenuLink>
-                  ))}
-                </div>
-              </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        ))}
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            asChild
-            className={cn(
-              "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
-            )}
-          >
-            <Link href="/about">Giới thiệu</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            asChild
-            className={cn(
-              "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
-            )}
-          >
-            <Link href="/contact">Liện hệ</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+        {tree.map((item) =>
+          item.children && item.children.length > 0 ? (
+            <MegaMenu key={item.id} item={item} />
+          ) : (
+            <NavigationMenuItem key={item.id}>
+              <NavigationMenuLink
+                asChild
+                className={cn(
+                  "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                )}
+              >
+                <Link href={item.url || "#"}>{item.title}</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ),
+        )}
       </NavigationMenuList>
     </NavigationMenu>
   );

@@ -1,5 +1,5 @@
 import pocketClient from "@/pocketbase/client";
-import { PRODUCT_VARIANT_ATTRIBUTES_COLLECTION } from "@/pocketbase/constants";
+import { PRODUCT_VARIANT_ATTRIBUTES_COLLECTION } from "@/pocketbase/consts";
 
 async function getListOptionVariantPocket(variantId: string) {
   const res = await pocketClient
